@@ -730,8 +730,11 @@ func ValidateConfig(cfg Config, usageMessage string,
 			return false
 		}
 
-		return fileParser.FindOptionByLongName(long).IsSet() ||
-			flagParser.FindOptionByLongName(long).IsSet()
+		fileOption := fileParser.FindOptionByLongName(long)
+		flagOption := flagParser.FindOptionByLongName(long)
+
+		return (fileOption != nil && fileOption.IsSet()) ||
+			(flagOption != nil && flagOption.IsSet())
 	}
 
 	// As soon as we're done parsing configuration options, ensure all paths
